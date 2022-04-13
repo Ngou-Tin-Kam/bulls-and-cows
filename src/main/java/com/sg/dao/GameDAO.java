@@ -7,4 +7,6 @@ public interface GameDAO {
     public void generateRandomNum(String answerOne, String answerTwo, String answerThree, String answerFour);
     public HashMap<String, Integer> getGameId();
     public List<String> getAnswer(int id);
+    public void getListOfAllGames();
+    public void getGameById();
 }

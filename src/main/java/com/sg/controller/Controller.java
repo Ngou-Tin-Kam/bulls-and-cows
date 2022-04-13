@@ -68,10 +68,8 @@ public class Controller {
             if (answerList.contains(guessList.get(i))) {
                 if (Objects.equals(guessList.get(i), answerList.get(i))) {
                     exactCounter++;
-                    System.out.println("EXACT");
                 } else {
                     partialCounter++;
-                    System.out.println("PARTIAL");
                 }
             }
         }
@@ -79,5 +77,15 @@ public class Controller {
         this.guessDAO.updateGuessResult(partialCounter, exactCounter, guess.getId(), currentRoundId);
 
         return 1;
+    }
+
+    @GetMapping("/game")
+    public void game() {
+        // TO DO
+    }
+
+    @GetMapping("/round/{id}")
+    public List<Guess> round(@PathVariable(name="id") int id) {
+        return guessDAO.getRoundById(id);
     }
 }

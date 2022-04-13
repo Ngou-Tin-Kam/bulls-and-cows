@@ -20,6 +20,10 @@ public class Game {
         this.result = result;
     }
 
+    public Game() {
+
+    }
+
     public int getId() {
         return id;
     }

@@ -47,7 +47,17 @@ public class GameDAOImpl implements GameDAO {
         answerListToString.add(answerList.get(0).getAnswerThree());
         answerListToString.add(answerList.get(0).getAnswerFour());
 
-        System.out.println(answerList.get(0));
         return answerListToString;
     }
+
+    @Override
+    public void getListOfAllGames() {
+        String query = "SELECT * FROM game WHERE result = 1;";
+    }
+
+    @Override
+    public void getGameById() {
+        String query = "SELECT * FROM game WHERE id = ? AND result = 1;";
+    }
+
 }
