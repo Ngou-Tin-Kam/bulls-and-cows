@@ -20,8 +20,8 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     public void generateRandomNum(String answerOne, String answerTwo, String answerThree, String answerFour) {
-            String query = "INSERT INTO game (answer_one, answer_two, answer_three, answer_four, result) VALUES (?, ?, ?, ?, ?);";
-            jdbcTemplate.update(query, answerOne, answerTwo, answerThree, answerFour, false);
+        String query = "INSERT INTO game (answer_one, answer_two, answer_three, answer_four, result) VALUES (?, ?, ?, ?, ?);";
+        jdbcTemplate.update(query, answerOne, answerTwo, answerThree, answerFour, false);
     }
 
     @Override

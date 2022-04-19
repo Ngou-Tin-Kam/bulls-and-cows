@@ -67,18 +67,9 @@ public class Controller {
         guessList.add(guess.getGuessThree());
         guessList.add(guess.getGuessFour());
 
-        int partialCounter = 0;
-        int exactCounter = 0;
-
-        for (int i = 0; i < answerList.size(); i++) {
-            if (answerList.contains(guessList.get(i))) {
-                if (Objects.equals(guessList.get(i), answerList.get(i))) {
-                    exactCounter++;
-                } else {
-                    partialCounter++;
-                }
-            }
-        }
+        int[] exactPartialCounter = compareResult(guessList, answerList);
+        int exactCounter = exactPartialCounter[0];
+        int partialCounter = exactPartialCounter[1];
 
         String resultMessage = "not quite right, try again!";
 
@@ -92,18 +83,35 @@ public class Controller {
         return resultMessage;
     }
 
+    public int[] compareResult(List<String> guessList, List<String> answerList) {
+        int partialCounter = 0;
+        int exactCounter = 0;
+
+        for (int i = 0; i < answerList.size(); i++) {
+            if (answerList.contains(guessList.get(i))) {
+                if (Objects.equals(guessList.get(i), answerList.get(i))) {
+                    exactCounter++;
+                } else {
+                    partialCounter++;
+                }
+            }
+        }
+
+        return new int[]{exactCounter, partialCounter};
+    }
+
     @GetMapping("/game")
     public List<Game> game() {
         return gameDAO.getListOfAllGames();
     }
 
     @GetMapping("/game/{id}")
-    public List<Game> game(@PathVariable(name="id") int id) {
+    public List<Game> game(@PathVariable(name = "id") int id) {
         return gameDAO.getGameById(id);
     }
 
     @GetMapping("/round/{id}")
-    public List<Guess> round(@PathVariable(name="id") int id) {
+    public List<Guess> round(@PathVariable(name = "id") int id) {
         return guessDAO.getRoundById(id);
     }
 }
