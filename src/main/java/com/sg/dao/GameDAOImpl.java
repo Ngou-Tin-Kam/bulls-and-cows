@@ -2,7 +2,6 @@ package com.sg.dao;
 
 import com.sg.model.Answer;
 import com.sg.model.Game;
-import com.sg.model.Guess;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -22,7 +21,7 @@ public class GameDAOImpl implements GameDAO {
     @Override
     public void generateRandomNum(String answerOne, String answerTwo, String answerThree, String answerFour) {
             String query = "INSERT INTO game (answer_one, answer_two, answer_three, answer_four, result) VALUES (?, ?, ?, ?, ?);";
-            jdbcTemplate.update(query, answerOne, answerTwo, answerThree, answerFour, true);
+            jdbcTemplate.update(query, answerOne, answerTwo, answerThree, answerFour, false);
     }
 
     @Override
@@ -68,5 +67,23 @@ public class GameDAOImpl implements GameDAO {
         sb.append(id);
 
         return jdbcTemplate.query(sb.toString(), new BeanPropertyRowMapper<>(Game.class));
+    }
+
+    @Override
+    public void updateGameResult(int id) {
+        String query = "UPDATE game SET result = 1 WHERE id = ?;";
+
+        jdbcTemplate.update(query, id);
+    }
+
+    @Override
+    public int getGameResultForId(int id) {
+        String query = "SELECT result FROM game WHERE id = ";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(query);
+        sb.append(id);
+
+        return jdbcTemplate.queryForObject(sb.toString(), Integer.class);
     }
 }

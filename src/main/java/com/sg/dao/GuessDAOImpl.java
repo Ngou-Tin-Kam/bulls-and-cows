@@ -1,6 +1,5 @@
 package com.sg.dao;
 
-import com.sg.model.Answer;
 import com.sg.model.Guess;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

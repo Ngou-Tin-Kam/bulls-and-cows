@@ -45,13 +45,19 @@ public class Controller {
 
     @ResponseStatus(code = HttpStatus.OK)
     @PostMapping("/guess")
-    public int guess(@RequestBody Guess guess) {
+    public String guess(@RequestBody Guess guess) {
         this.guessDAO.guessNum(guess);
         int currentRoundId = this.guessDAO.retrieveCurrentRound(guess);
 
+        int gameResult = this.gameDAO.getGameResultForId(guess.getId());
+
+        if (gameResult == 1) {
+            return "Game has been completed";
+        }
+
         if (currentRoundId >= 10) {
-            return 0;
-            // Return 0 for now, to exit this method if user guess more than 10 times
+            this.gameDAO.updateGameResult(guess.getId());
+            return "You have tried more than 10 times already, marking game as completed";
         }
         List<String> answerList = this.gameDAO.getAnswer(guess.getId());
 
@@ -74,9 +80,16 @@ public class Controller {
             }
         }
 
+        String resultMessage = "not quite right, try again!";
+
         this.guessDAO.updateGuessResult(partialCounter, exactCounter, guess.getId(), currentRoundId);
 
-        return 1;
+        if (exactCounter >= 4) {
+            this.gameDAO.updateGameResult(guess.getId());
+            resultMessage = "Well done, you got it correct, marking game as completed";
+        }
+
+        return resultMessage;
     }
 
     @GetMapping("/game")

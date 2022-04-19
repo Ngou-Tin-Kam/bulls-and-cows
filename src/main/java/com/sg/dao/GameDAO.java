@@ -11,4 +11,6 @@ public interface GameDAO {
     public List<String> getAnswer(int id);
     public List<Game> getListOfAllGames();
     public List<Game> getGameById(int id);
+    public void updateGameResult(int id);
+    public int getGameResultForId(int id);
 }
