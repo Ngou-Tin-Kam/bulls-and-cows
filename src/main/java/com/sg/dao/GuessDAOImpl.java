@@ -18,15 +18,31 @@ public class GuessDAOImpl implements GuessDAO {
 
     @Override
     public void guessNum(Guess guess) {
-        String query = "INSERT INTO guess (id, guess_one, guess_two, guess_three, guess_four, partial, exact)"
-                + "values (?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(query, guess.getId(), guess.getGuessOne(), guess.getGuessTwo(), guess.getGuessThree(), guess.getGuessFour(), guess.getPartial(), guess.getExact());
+        String queryOne = "SELECT MAX(round_id) FROM guess WHERE id = ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(queryOne);
+        sb.append(guess.getId());
+
+        int roundId = 0;
+        if (jdbcTemplate.queryForObject(sb.toString(), Integer.class) == null) {
+            roundId = 1;
+        } else {
+            roundId = jdbcTemplate.queryForObject(sb.toString(), Integer.class) + 1;
+        }
+
+        String queryTwo = "INSERT INTO guess (round_id, id, guess_one, guess_two, guess_three, guess_four, partial, exact)"
+                + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(queryTwo, roundId, guess.getId(), guess.getGuessOne(), guess.getGuessTwo(), guess.getGuessThree(), guess.getGuessFour(), guess.getPartial(), guess.getExact());
     }
 
     @Override
-    public int retrieveCurrentRound() {
-        String query = "SELECT MAX(round_id) FROM guess;";
-        return jdbcTemplate.queryForObject(query, Integer.class);
+    public int retrieveCurrentRound(Guess guess) {
+        String queryOne = "SELECT MAX(round_id) FROM guess WHERE id = ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(queryOne);
+        sb.append(guess.getId());
+
+        return jdbcTemplate.queryForObject(sb.toString(), Integer.class);
     }
 
     @Override

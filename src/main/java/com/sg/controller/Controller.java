@@ -47,7 +47,7 @@ public class Controller {
     @PostMapping("/guess")
     public int guess(@RequestBody Guess guess) {
         this.guessDAO.guessNum(guess);
-        int currentRoundId = this.guessDAO.retrieveCurrentRound();
+        int currentRoundId = this.guessDAO.retrieveCurrentRound(guess);
 
         if (currentRoundId >= 10) {
             return 0;
