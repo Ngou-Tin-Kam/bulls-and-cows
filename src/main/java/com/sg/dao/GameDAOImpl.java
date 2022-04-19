@@ -1,6 +1,8 @@
 package com.sg.dao;
 
 import com.sg.model.Answer;
+import com.sg.model.Game;
+import com.sg.model.Guess;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -51,13 +53,20 @@ public class GameDAOImpl implements GameDAO {
     }
 
     @Override
-    public void getListOfAllGames() {
+    public List<Game> getListOfAllGames() {
         String query = "SELECT * FROM game WHERE result = 1;";
+
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Game.class));
     }
 
     @Override
-    public void getGameById() {
-        String query = "SELECT * FROM game WHERE id = ? AND result = 1;";
-    }
+    public List<Game> getGameById(int id) {
+        String query = "SELECT * FROM game WHERE result = 1 AND id = ";
 
+        StringBuilder sb = new StringBuilder();
+        sb.append(query);
+        sb.append(id);
+
+        return jdbcTemplate.query(sb.toString(), new BeanPropertyRowMapper<>(Game.class));
+    }
 }

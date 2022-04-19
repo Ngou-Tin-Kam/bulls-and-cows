@@ -80,8 +80,13 @@ public class Controller {
     }
 
     @GetMapping("/game")
-    public void game() {
-        // TO DO
+    public List<Game> game() {
+        return gameDAO.getListOfAllGames();
+    }
+
+    @GetMapping("/game/{id}")
+    public List<Game> game(@PathVariable(name="id") int id) {
+        return gameDAO.getGameById(id);
     }
 
     @GetMapping("/round/{id}")
